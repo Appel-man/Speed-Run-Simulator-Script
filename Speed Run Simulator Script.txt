@@ -5,19 +5,22 @@ local Player  = game.Players.LocalPlayer
 local Main        = Window:NewTab("Main")
 local MainSection = Main:NewSection("Main")
 
-local goToDb   = false
-local goToLoop = false
+local goToLoop        = false
+local getCurrencyLoop = false
 
 function goTo()
-    if goToDb and #workspace.OrbSpawns:GetChildren() > 0 then return end
-    goToDb = true
+    if #workspace.OrbSpawns:GetChildren() > 0 then return end
     
     if workspace.OrbSpawns:FindFirstChild("Ring") then
         Player.Character:MoveTo(workspace.OrbSpawns:FindFirstChild("Ring").Position)
     else
         Player.Character:MoveTo(workspace.OrbSpawns:GetChildren()[1].Position)
     end
-    goToDb = false
+    return true
+end
+
+function getCurrency()
+    game:GetService("ReplicatedStorage").Remotes.AddSpeed:FireServer()
     return true
 end
 
@@ -25,7 +28,7 @@ MainSection:NewButton("TP Orb", "Teleports You To All Available Orbs", function(
     goTo()
 end)
 
-MainSection:NewToggle("Auto Farm", "Loops The 'TP Orbs' Function", function(state)
+MainSection:NewToggle("Auto TP Orb", "Loops The 'TP Orbs' Function", function(state)
     if state then
         goToLoop = true
         spawn(function()
@@ -37,6 +40,28 @@ MainSection:NewToggle("Auto Farm", "Loops The 'TP Orbs' Function", function(stat
     else
         goToLoop = false
     end
+end)
+
+MainSection:NewButton("Get Click Speed", "Gives You One Click Speed", function()
+    getCurrency()
+end)
+
+MainSection:NewToggle("Auto Get Click Speed", "Loops The 'Get Click Speed' Function", function(state)
+    if state then
+        getCurrencyLoop = true
+        spawn(function()
+            while getCurrencyLoop do
+                repeat wait() until getCurrency()
+                    wait(0.2)
+            end
+        end)
+    else
+        getCurrencyLoop = false
+    end
+end)
+
+MainSection:NewButton("TP Race Finish", "Teleports You To The Finish Of The Race", function()
+    game.Players.LocalPlayer.Character:MoveTo(workspace.RaceEnd.Position -Vector3.new(0, 25, -5))
 end)
 
 MainSection:NewButton("Inf Yield Admin", "FE Admin Commands", function()
