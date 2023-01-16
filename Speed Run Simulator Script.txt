@@ -9,7 +9,7 @@ local goToLoop        = false
 local getCurrencyLoop = false
 
 function goTo()
-    if #workspace.OrbSpawns:GetChildren() > 0 then return end
+    if not (#workspace.OrbSpawns:GetChildren() > 0) then return end
     
     if workspace.OrbSpawns:FindFirstChild("Ring") then
         Player.Character:MoveTo(workspace.OrbSpawns:FindFirstChild("Ring").Position)
@@ -34,7 +34,7 @@ MainSection:NewToggle("Auto TP Orb", "Loops The 'TP Orbs' Function", function(st
         spawn(function()
             while goToLoop do
                 repeat wait() until goTo()
-                    wait(0.2)
+                    wait(0.1)
             end
         end)
     else
@@ -52,7 +52,7 @@ MainSection:NewToggle("Auto Get Click Speed", "Loops The 'Get Click Speed' Funct
         spawn(function()
             while getCurrencyLoop do
                 repeat wait() until getCurrency()
-                    wait(0.2)
+                    wait(0.1)
             end
         end)
     else
@@ -62,6 +62,10 @@ end)
 
 MainSection:NewButton("TP Race Finish", "Teleports You To The Finish Of The Race", function()
     game.Players.LocalPlayer.Character:MoveTo(workspace.RaceEnd.Position -Vector3.new(0, 25, -5))
+end)
+
+MainSection:NewButton("TP Spawn", "Teleports You To The Spawn", function()
+workspace.pI4w:MoveTo(workspace.Teleports.Spawn.Position)
 end)
 
 MainSection:NewButton("Inf Yield Admin", "FE Admin Commands", function()
