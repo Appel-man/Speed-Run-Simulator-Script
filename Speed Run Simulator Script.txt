@@ -1,4 +1,6 @@
-local Library = loadstring(game:HttpGet("https://pastebin.com/raw/yzt3qebK"))()
+-- Game: https://www.roblox.com/games/7047488135/Speed-Run-Simulator?gameSetTypeId=100000003&homePageSessionInfo=15b06be5-7d99-4d8b-ae3b-b3e8cd91f6bc&isAd=false&numberOfLoadedTiles=6&page=homePage&placeId=7047488135&position=1&sortPos=0&universeId=2714481045
+
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/Appel-man/ExploitLibrary/main/Main.txt"))()
 local Window  = Library.CreateLib("Speed Run Simulator Script By AbelStuff", "Synapse")
 local Player  = game.Players.LocalPlayer
 -- MAIN
