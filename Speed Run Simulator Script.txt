@@ -1,0 +1,78 @@
+local Library = loadstring(game:HttpGet("https://pastebin.com/raw/yzt3qebK"))()
+local Window  = Library.CreateLib("Speed Run SImulator Script", "Synapse")
+local Player  = game.Players.LocalPlayer
+-- MAIN
+local Main        = Window:NewTab("Main")
+local MainSection = Main:NewSection("Main")
+
+local goToDb   = false
+local goToLoop = false
+
+function goTo()
+    if goToDb and #workspace.OrbSpawns:GetChildren() > 0 then return end
+    goToDb = true
+    
+    if workspace.OrbSpawns:FindFirstChild("Ring") then
+        Player.Character:MoveTo(workspace.OrbSpawns:FindFirstChild("Ring").Position)
+    else
+        Player.Character:MoveTo(workspace.OrbSpawns:GetChildren()[1].Position)
+    end
+    goToDb = false
+    return true
+end
+
+MainSection:NewButton("TP Orb", "Teleports You To All Available Orbs", function()
+    goTo()
+end)
+
+MainSection:NewToggle("Auto Farm", "Loops The 'TP Orbs' Function", function(state)
+    if state then
+        goToLoop = true
+        spawn(function()
+            while goToLoop do
+                repeat wait() until goTo()
+                    wait(0.2)
+            end
+        end)
+    else
+        goToLoop = false
+    end
+end)
+
+MainSection:NewButton("Inf Yield Admin", "FE Admin Commands", function()
+    loadstring(game:HttpGet(('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'),true))()
+end)
+
+
+--LOCAL PLAYER
+local PlayerTab     = Window:NewTab("Player")
+local PlayerSection = PlayerTab:NewSection("Player")
+
+PlayerSection:NewSlider("Walkspeed", "SPEED!!", 500, 16, function(s)
+    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = s
+end)
+
+PlayerSection:NewSlider("Jumppower", "JUMP HIGH!!", 350, 50, function(s)
+    game.Players.LocalPlayer.Character.Humanoid.JumpPower = s
+end)
+
+PlayerSection:NewButton("Btools", "Gives You BTools", function()
+    local Player = game.Players.LocalPlayer
+    local Hammer = Instance.new('HopperBin')
+    Hammer.BinType = 'Hammer'
+    Hammer.Name = 'Hammer'
+    Hammer.Parent = Player.Backpack
+    Hammer:Clone().Parent = Player.StarterGear
+
+    local Clone = Instance.new('HopperBin')
+    Clone.BinType = 'Clone'
+    Clone.Name = 'Clone'
+    Clone.Parent = Player.Backpack
+    Clone:Clone().Parent = Player.StarterGear
+
+    local Grab = Instance.new('HopperBin')
+    Grab.BinType = 'Grab'
+    Grab.Name = 'Grab'
+    Grab.Parent = Player.Backpack
+    Grab:Clone().Parent = Player.StarterGear
+end)
