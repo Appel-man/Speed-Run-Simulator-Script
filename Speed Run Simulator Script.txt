@@ -1,7 +1,7 @@
 -- Game: https://www.roblox.com/games/7047488135/Speed-Run-Simulator?gameSetTypeId=100000003&homePageSessionInfo=15b06be5-7d99-4d8b-ae3b-b3e8cd91f6bc&isAd=false&numberOfLoadedTiles=6&page=homePage&placeId=7047488135&position=1&sortPos=0&universeId=2714481045
 
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/Appel-man/ExploitLibrary/main/Main.txt"))()
-local Window  = Library.CreateLib("Speed Run Simulator Script By AbelStuff", "Synapse")
+local Window  = Library.CreateLib("Speed Run Simulator Script By Appelman", "Synapse")
 local Player  = game.Players.LocalPlayer
 -- MAIN
 local Main        = Window:NewTab("Main")
@@ -9,6 +9,7 @@ local MainSection = Main:NewSection("Main")
 
 local goToLoop        = false
 local getCurrencyLoop = false
+local maxflyspeed = 100
 
 function goTo()
     if not (#workspace.OrbSpawns:GetChildren() > 0) then return end
@@ -70,11 +71,6 @@ MainSection:NewButton("TP Spawn", "Teleports You To The Spawn", function()
 workspace.pI4w:MoveTo(workspace.Teleports.Spawn.Position)
 end)
 
-MainSection:NewButton("Inf Yield Admin", "FE Admin Commands", function()
-    loadstring(game:HttpGet(('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'),true))()
-end)
-
-
 --LOCAL PLAYER
 local PlayerTab     = Window:NewTab("Player")
 local PlayerSection = PlayerTab:NewSection("Player")
@@ -102,14 +98,13 @@ local flying = true
 local deb = true
 local ctrl = {f = 0, b = 0, l = 0, r = 0}
 local lastctrl = {f = 0, b = 0, l = 0, r = 0}
-local maxspeed = 250
 local speed = 0
 local bg = nil
 local bv = nil
 local Brute = true
 
 --Actual flying
-game.StarterGui:SetCore("SendNotification", {Title="Speedrun Simulator Script"; Text="Press E to brute fly and F to smooth fly!"; Duration=5;})
+game.StarterGui:SetCore("SendNotification", {Title="Appelman Script"; Text="Press E to brute fly and F to smooth fly!"; Duration=5;})
 function Fly()
 local torso = plr.Character:FindFirstChild("Torso") or plr.Character:FindFirstChild("UpperTorso")
     bg = Instance.new("BodyGyro", torso)
@@ -124,11 +119,11 @@ local torso = plr.Character:FindFirstChild("Torso") or plr.Character:FindFirstCh
         plr.Character.Humanoid.PlatformStand = true
         if ctrl.l + ctrl.r ~= 0 or ctrl.f + ctrl.b ~= 0 then
             if Brute then
-                speed = maxspeed
+                speed = maxflyspeed
             else
-                speed = speed+.5+(speed/maxspeed)
-                if speed > maxspeed then
-                    speed = maxspeed
+                speed = speed+.5+(speed/maxflyspeed)
+                if speed > maxflyspeed then
+                    speed = maxflyspeed
                 end
             end
         elseif not (ctrl.l + ctrl.r ~= 0 or ctrl.f + ctrl.b ~= 0) and speed ~= 0 then
@@ -149,7 +144,7 @@ local torso = plr.Character:FindFirstChild("Torso") or plr.Character:FindFirstCh
         else
             bv.velocity = Vector3.new(0,0.1,0)
         end
-        bg.cframe = game.Workspace.CurrentCamera.CoordinateFrame * CFrame.Angles(-math.rad((ctrl.f+ctrl.b)*50*speed/maxspeed),0,0)
+        bg.cframe = game.Workspace.CurrentCamera.CoordinateFrame * CFrame.Angles(-math.rad((ctrl.f+ctrl.b)*50*speed/maxflyspeed),0,0)
     until not flying
     ctrl = {f = 0, b = 0, l = 0, r = 0}
     lastctrl = {f = 0, b = 0, l = 0, r = 0}
@@ -217,6 +212,10 @@ end)
 Fly()
 end)
 
+PlayerSection:NewSlider("Fly Speed", "Change Fly Speed", 1000, 10, function(s)
+    maxflyspeed = s
+end)
+
 PlayerSection:NewButton("Btools", "Gives You BTools", function()
     local Player = game.Players.LocalPlayer
     local Hammer = Instance.new('HopperBin')
@@ -236,4 +235,8 @@ PlayerSection:NewButton("Btools", "Gives You BTools", function()
     Grab.Name = 'Grab'
     Grab.Parent = Player.Backpack
     Grab:Clone().Parent = Player.StarterGear
+end)
+
+PlayerSection:NewButton("Inf Yield Admin", "FE Admin Commands", function()
+    loadstring(game:HttpGet(('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'),true))()
 end)
